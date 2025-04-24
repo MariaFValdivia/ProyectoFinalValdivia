@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const resumenCarrito = document.getElementById('resumen-carrito');
     const totalCheckout = document.getElementById('total-checkout');
 
-    // Función para mostrar los productos en el checkout
     function mostrarResumenCarrito() {
         if (carrito.length === 0) {
             resumenCarrito.innerHTML = '<p class="text-center">El carrito está vacío.</p>';
@@ -12,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         let total = 0;
-        resumenCarrito.innerHTML = ''; // Limpiar el contenedor
+        resumenCarrito.innerHTML = '';
 
         carrito.forEach(producto => {
             const card = document.createElement('div');
@@ -37,13 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
         totalCheckout.textContent = total;
     }
 
-    // Mostrar el resumen del carrito al cargar la página
+ 
     mostrarResumenCarrito();
 
-    // Manejar el envío del formulario
+
     const formularioEnvio = document.getElementById('formulario-envio');
     formularioEnvio.addEventListener('submit', function (event) {
-        event.preventDefault(); // Evitar que se recargue la página
+        event.preventDefault(); 
 
         // Validar el formulario
         const nombre = document.getElementById('nombre').value.trim();
@@ -60,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Simular el envío de la compra
         alert('¡Compra realizada con éxito!');
-        localStorage.removeItem('carrito'); // Limpiar el carrito
-        window.location.href = 'index.html'; // Redirigir a la página de inicio
+        localStorage.removeItem('carrito'); 
+        window.location.href = 'index.html';
     });
 });

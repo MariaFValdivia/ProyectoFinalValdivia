@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
     // Variables globales
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const carroItems = document.getElementById('items-carrito');
     const contadorElementosCarrito = document.getElementById('contador-carrito');
-    const contenedorCards = document.querySelector('.contenedorCards'); // Referencia al contenedor de productos
+    const contenedorCards = document.querySelector('.contenedorCards'); 
 
-    // Función para actualizar el carrito
     function actualizarCarrito() {
         console.log("Actualizando el carrito...");
-        carroItems.innerHTML = ''; // Limpiar el contenido del carrito
+        carroItems.innerHTML = '';
 
         if (carrito.length === 0) {
             carroItems.innerHTML = `
@@ -28,23 +28,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 carroItems.appendChild(listItem);
             });
 
-            // Calcular el total del carrito
             const total = carrito.reduce((suma, producto) => suma + producto.precio, 0);
             contadorElementosCarrito.textContent = carrito.length;
 
-            // Mostrar el total
             const totalItem = document.createElement('li');
             totalItem.classList.add('dropdown-item-text', 'text-end', 'fw-bold');
             totalItem.innerHTML = `Total: $<span id="valor-total">${total}</span>`;
             carroItems.appendChild(totalItem);
 
-            // Botón para vaciar el carrito
             const vaciarBtn = document.createElement('li');
             vaciarBtn.classList.add('dropdown-item', 'text-center');
             vaciarBtn.innerHTML = `<button class="btn btn-outline-danger btn-sm" id="vaciar-carrito">Vaciar carrito</button>`;
             carroItems.appendChild(vaciarBtn);
 
-            // Agregar eventos a los botones "Eliminar" y "Vaciar carrito"
             document.querySelectorAll('.eliminar-producto').forEach(boton => {
                 boton.addEventListener('click', function () {
                     const index = parseInt(this.getAttribute('data-index'));
@@ -62,50 +58,44 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         carroItems.appendChild(pagarBtn);
         
-        // Event listener para el botón de pagar
         document.getElementById('pagar-carrito')?.addEventListener('click', function () {
             if (carrito.length === 0) {
                 alert('El carrito está vacío. Agrega productos antes de pagar.');
                 return;
             }
-            // Redirigir a la página de checkout
             window.location.href = 'compra.html';
         });
 
-        // Guardar el carrito en localStorage
         localStorage.setItem('carrito', JSON.stringify(carrito));
     }
 
-    // Función para eliminar un producto del carrito
     function eliminarProductoDelCarrito(index) {
-        carrito.splice(index, 1); // Eliminar el producto del array
-        actualizarCarrito(); // Actualizar la interfaz
+        carrito.splice(index, 1); 
+        actualizarCarrito(); 
     }
 
-    // Función para vaciar el carrito
+
     function vaciarCarrito() {
         if (confirm("¿Estás seguro de que quieres vaciar el carrito?")) {
-            carrito.length = 0; // Vaciar el carrito
-            actualizarCarrito(); // Actualizar la interfaz
+            carrito.length = 0; 
+            actualizarCarrito(); 
         }
     }
 
-    // Función para cargar productos desde el archivo JSON
     async function mostrarProductos() {
         try {
-            const response = await fetch('products.json'); // Cargar el archivo JSON
+            const response = await fetch('products.json'); 
             if (!response.ok) {
                 throw new Error('No se pudo cargar el archivo JSON.');
             }
             const productosArray = await response.json();
 
-            contenedorCards.innerHTML = ''; // Limpiar el contenido del contenedor
+            contenedorCards.innerHTML = ''; 
 
-            // Crear las tarjetas de productos
             productosArray.forEach(producto => {
                 const card = document.createElement('div');
-                card.classList.add('card', 'mb-3', 'col-md-4'); // Clases de Bootstrap
-                card.style.width = '18rem'; // Ancho fijo
+                card.classList.add('card', 'mb-3', 'col-md-4');
+                card.style.width = '18rem'; 
                 card.innerHTML = `
                     <img src="${producto.imagen}" class="card-img-top" alt="${producto.titulo}">
                     <div class="card-body">
@@ -125,8 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
                 contenedorCards.appendChild(card);
             });
-
-            // Event listener para agregar productos al carrito
             document.querySelectorAll('.agregar-al-carrito').forEach(boton => {
                 boton.addEventListener('click', function () {
                     const productoId = parseInt(this.getAttribute('data-id'));
@@ -161,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Llamar a las funciones iniciales
-    mostrarProductos(); // Mostrar los productos en el contenedor
-    actualizarCarrito(); // Mostrar el carrito si hay datos guardados
+
+    mostrarProductos(); 
+    actualizarCarrito(); 
 });
